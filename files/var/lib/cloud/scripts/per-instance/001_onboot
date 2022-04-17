@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Laravel user configuration
+cat >> /root/.bashrc <<EOM
+chmod +x /opt/digitalocean/laravel_setup.sh
+/opt/digitalocean/laravel_setup.sh
+EOM
+
+# Remove the ssh force logout command
+sed -e '/Match User root/d' \
+    -e '/.*ForceCommand.*droplet.*/d' \
+    -i /etc/ssh/sshd_config
+
+systemctl restart ssh
