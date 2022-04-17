@@ -10,6 +10,70 @@ To install the latest version of [Laravel](https://laravel.com/) on DigitalOcean
 
 > [Laravel 1-Click installation - DigitalOcean Marketplace](https://marketplace.digitalocean.com/apps/laravel?refcode=dc19b9819d06&action=deploy)
 
+## Steps after the installation
+
+In addition to the package installation, the One-Click also:
+
+- Enables the UFW firewall to allow only SSH (port 22, rate limited), HTTP (port 80), and HTTPS (port 443) access.
+- Creates the initial Laravel configuration file to set up database credentials and allow the Laravel instance to connect to the database.
+- After you create a Laravel One-Click Droplet, you’ll need to log into the Droplet via SSH to finish the Laravel setup.
+
+From a terminal on your local computer, connect to the Droplet as root. Make sure to substitute the Droplet’s public IPv4 address.
+
+```
+ssh root@your_droplet_public_ipv4
+```
+
+If you did not add an SSH key when you created the Droplet, you’ll first be prompted to reset your root password.
+
+Then, the interactive script that runs will first prompt you for your domain or subdomain:
+
+```
+--------------------------------------------------
+This setup requires a domain name.  If you do not have one yet, you may
+cancel this setup, press Ctrl+C.  This script will run again on your next login
+--------------------------------------------------
+Enter the domain name for your new Laravel site.
+(ex. example.org or test.example.org) do not include www or http/s
+--------------------------------------------------
+Domain/Subdomain name:
+```
+
+The next prompt asks if you want to use SSL for your website via Let’s Encrypt, which we recommend:
+
+```
+Next, you have the option of configuring LetsEncrypt to secure your new site.  Before doing this, be sure that you have pointed your domain or subdomain to this server's IP address.  You can also run LetsEncrypt certbot later with the command 'certbot --nginx'
+
+Would you like to use LetsEncrypt (certbot) to configure SSL(https) for your new site? (y/n):
+```
+
+At this point, you can visit the Droplet’s IP address or your domain name in your browser to see the Laravel installation.
+
+The web root is `/var/www/laravel`, and the Laravel configuration file is `/var/www/laravel/.env`.
+
+You can get information about the PHP installation by logging into the Droplet and running `php -i`.
+
+If you didn’t enable HTTPS during the initial setup script, you can enable it manually at any time after your domain name has been pointed to the Droplet's IP address.
+
+Setting up an SSL certificate enables HTTPS on the web server, which secures the traffic between the server and the clients connecting to it. Certbot is a free and automated way to set up SSL certificates on a server. It’s included as part of the Laravel One-Click to make securing the Droplet easier.
+
+To use Certbot, you’ll need a registered domain name and two DNS records:
+
+- An A record from the domain (e.g., `example.com`) to the server’s IP address
+- An A record from a domain prefaced with www (e.g., [www.example.com](<http://www.example.com>)) to the server’s IP address
+
+Additionally, if you’re using a server block file, you’ll need to make sure the server name directive in the Nginx server block (e.g., `server_name example.com`) is correctly set to the domain.
+
+Once the DNS records and, optionally, the server block files are set up, you can generate the SSL certificate. Make sure to substitute the domain in the command.
+
+```
+certbot --nginx -d example.com -d www.example.com
+```
+
+For a more detailed walkthrough, you can follow [How to Secure Nginx with Let’s Encrypt](<https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04>) or view [Certbot’s official documentation](<https://certbot.eff.org/docs/using.html>).
+
+You can serve files from the web server by adding them to the web root (`/var/www/laravel`) using [SFTP](<https://www.digitalocean.com/community/tutorials/how-to-use-sftp-to-securely-transfer-files-with-a-remote-server>) or other tools.
+
 ## LaraSail
 
 The Laravel 1-Click installation ships with the [LaraSail](https://github.com/thedevdojo/larasail) script.

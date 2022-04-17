@@ -40,7 +40,9 @@ function create_database_details() {
     mysql -e "CREATE USER 'laravel_user'@'%' IDENTIFIED WITH mysql_native_password BY '$password';"
     mysql -e "GRANT ALL ON laravel.* TO 'laravel_user'@'%';"
 
-    sed -i "s/NEW_PASS/${password}/g" /var/www/laravel/.env
+    # Change password and user
+    sed -i "s/^DB_PASSWORD=/DB_PASSWORD=${password}/g" /var/www/laravel/.env
+    sed -i "s/^DB_USERNAME=root/DB_USERNAME=laravel_user/g" /var/www/laravel/.env
 }
 
 create_database_details
