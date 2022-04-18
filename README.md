@@ -201,7 +201,7 @@ For more information, please visit https://www.devdojo.com or follow [@thedevdoj
 
 ```
 export DIGITALOCEAN_TOKEN=your_digital_ocean_token_here
-packer build marketplace-image.json
+packer build template.json
 ```
 
 By doing this, there is a reduced likelihood of having to submit an image multiple times as a result of falling in any of the next steps:
