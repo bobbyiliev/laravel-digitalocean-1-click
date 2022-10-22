@@ -12,6 +12,9 @@ curl -sL https://github.com/thedevdojo/larasail/archive/master.tar.gz | tar xz &
 # Run the LaraSail setup script
 sh /etc/.larasail/larasail setup
 chown larasail: /home/larasail/.my.cnf
+sed 's/user=dbadmin/user=root/g' /home/larasail/.my.cnf > /root/.my.cnf
+chown root: /root/.my.cnf
+chmod 600 /root/.my.cnf
 
 # Create a new Laravel project
 cd /var/www && export COMPOSER_ALLOW_SUPERUSER=1; $HOME/.config/composer/vendor/bin/laravel new laravel
