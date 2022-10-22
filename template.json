@@ -2,7 +2,7 @@
   "variables": {
     "do_token": "{{env `DIGITALOCEAN_TOKEN`}}",
     "image_name": "laravel-20-04-snapshot-{{timestamp}}",
-    "apt_packages": "fail2ban mysql-server nginx software-properties-common language-pack-en-base unzip php-cli python3 python3-venv libaugeas0 python3-pip python3-certbot-nginx",
+    "apt_packages": "fail2ban nginx software-properties-common language-pack-en-base unzip python3 python3-venv libaugeas0 python3-pip python3-certbot-nginx",
     "application_name": "Laravel",
     "application_version": ""
   },
@@ -12,8 +12,8 @@
       "type": "digitalocean",
       "api_token": "{{user `do_token`}}",
       "image": "ubuntu-20-04-x64",
-      "region": "nyc3",
-      "size": "s-1vcpu-1gb",
+      "region": "nyc1",
+      "size": "s-1vcpu-512mb-10gb",
       "ssh_username": "root",
       "snapshot_name": "{{user `image_name`}}"
     }
