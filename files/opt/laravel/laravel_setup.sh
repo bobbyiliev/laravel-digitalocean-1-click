@@ -37,8 +37,8 @@ echo "Configuring Laravel database details"
 function create_database_details() {
     password=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 14 | head -n 1)
     mysql -e "CREATE DATABASE laravel DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;"
-    mysql -e "CREATE USER 'laravel_user'@'%' IDENTIFIED WITH mysql_native_password BY '$password';"
-    mysql -e "GRANT ALL ON laravel.* TO 'laravel_user'@'%';"
+    mysql -e "CREATE USER 'laravel_user'@'localhost' IDENTIFIED WITH mysql_native_password BY '$password';"
+    mysql -e "GRANT ALL ON laravel.* TO 'laravel_user'@'localhost';"
 
     # Change password and user
     sed -i "s/^DB_PASSWORD=/DB_PASSWORD=${password}/g" /var/www/laravel/.env
