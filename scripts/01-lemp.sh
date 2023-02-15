@@ -10,7 +10,7 @@ rm -rvf /etc/nginx/sites-enabled/default
 curl -sL https://github.com/thedevdojo/larasail/archive/master.tar.gz | tar xz && source larasail-master/install
 
 # Run the LaraSail setup script
-sh /etc/.larasail/larasail setup
+sh /etc/.larasail/larasail setup php82
 chown larasail: /home/larasail/.my.cnf
 sed 's/user=dbadmin/user=root/g' /home/larasail/.my.cnf > /root/.my.cnf
 chown root: /root/.my.cnf
@@ -21,6 +21,12 @@ cd /var/www && export COMPOSER_ALLOW_SUPERUSER=1; $HOME/.config/composer/vendor/
 
 ln -s /etc/nginx/sites-available/laravel \
       /etc/nginx/sites-enabled/laravel
+
+# Update welcome page with `/var/www/welcome.blade.php`
+if [ -f /var/www/welcome.blade.php ]; then
+    mv /var/www/welcome.blade.php /var/www/laravel/resources/views/welcome.blade.php
+    chown larasail: /var/www/laravel/resources/views/welcome.blade.php
+fi
 
 chown -R larasail: /var/www/laravel
 chown -R larasail:www-data /var/www/laravel/storage

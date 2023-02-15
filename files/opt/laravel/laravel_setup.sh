@@ -53,7 +53,7 @@ sed -i 's/APP_ENV=local/APP_ENV=production/g' /var/www/laravel/.env
 sed -i 's/APP_DEBUG=true/APP_DEBUG=false/g' /var/www/laravel/.env
 
 # Set default PHP version
-update-alternatives --set php /usr/bin/php8.0
+update-alternatives --set php /usr/bin/php8.2
 
 echo -en "\n\n\n"
 echo "Next, you have the option of configuring LetsEncrypt to secure your new site.  Before doing this, be sure that you have pointed your doma
