@@ -10,7 +10,7 @@ rm -rvf /etc/nginx/sites-enabled/default
 curl -sL https://github.com/thedevdojo/larasail/archive/master.tar.gz | tar xz && source larasail-master/install
 
 # Run the LaraSail setup script
-sh /etc/.larasail/larasail setup php82
+sh /etc/.larasail/larasail setup php83
 chown larasail: /home/larasail/.my.cnf
 sed 's/user=dbadmin/user=root/g' /home/larasail/.my.cnf > /root/.my.cnf
 chown root: /root/.my.cnf
