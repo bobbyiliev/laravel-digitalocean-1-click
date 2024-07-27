@@ -28,7 +28,7 @@ do
 fi
 done
 
-sed -i "s/DOMAIN/$dom/g"  /etc/nginx/sites-enabled/laravel
+sed -i "s/DOMAIN/$dom/g" /etc/nginx/sites-enabled/laravel
 
 systemctl restart nginx
 
@@ -52,8 +52,11 @@ cd /var/www/laravel/ && php artisan key:generate
 sed -i 's/APP_ENV=local/APP_ENV=production/g' /var/www/laravel/.env
 sed -i 's/APP_DEBUG=true/APP_DEBUG=false/g' /var/www/laravel/.env
 
+echo "Running Laravel Migrations"
+cd /var/www/laravel/ && php artisan migrate
+
 # Set default PHP version
-update-alternatives --set php /usr/bin/php8.2
+update-alternatives --set php /usr/bin/php8.3
 
 echo -en "\n\n\n"
 echo "Next, you have the option of configuring LetsEncrypt to secure your new site.  Before doing this, be sure that you have pointed your doma
