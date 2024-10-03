@@ -40,6 +40,14 @@ function create_database_details() {
     mysql -e "CREATE USER 'laravel_user'@'localhost' IDENTIFIED WITH mysql_native_password BY '$password';"
     mysql -e "GRANT ALL ON laravel.* TO 'laravel_user'@'localhost';"
 
+    # Laravel now has sqlite as default, so we need to change the database details:
+    sed -i 's/DB_CONNECTION=sqlite/DB_CONNECTION=mysql/' /var/www/laravel/.env
+    sed -i 's/# DB_HOST/DB_HOST/' /var/www/laravel/.env
+    sed -i 's/# DB_PORT/DB_PORT/' /var/www/laravel/.env
+    sed -i 's/# DB_DATABASE/DB_DATABASE/' /var/www/laravel/.env
+    sed -i 's/# DB_USERNAME/DB_USERNAME/' /var/www/laravel/.env
+    sed -i 's/# DB_PASSWORD/DB_PASSWORD/' /var/www/laravel/.env
+
     # Change password and user
     sed -i "s/^DB_PASSWORD=/DB_PASSWORD=${password}/g" /var/www/laravel/.env
     sed -i "s/^DB_USERNAME=root/DB_USERNAME=laravel_user/g" /var/www/laravel/.env
