@@ -40,17 +40,16 @@ function create_database_details() {
     mysql -e "CREATE USER 'laravel_user'@'localhost' IDENTIFIED WITH mysql_native_password BY '$password';"
     mysql -e "GRANT ALL ON laravel.* TO 'laravel_user'@'localhost';"
 
-    # Laravel now has sqlite as default, so we need to change the database details:
-    sed -i 's/DB_CONNECTION=sqlite/DB_CONNECTION=mysql/' /var/www/laravel/.env
-    sed -i 's/# DB_HOST/DB_HOST/' /var/www/laravel/.env
-    sed -i 's/# DB_PORT/DB_PORT/' /var/www/laravel/.env
-    sed -i 's/# DB_DATABASE/DB_DATABASE/' /var/www/laravel/.env
-    sed -i 's/# DB_USERNAME/DB_USERNAME/' /var/www/laravel/.env
-    sed -i 's/# DB_PASSWORD/DB_PASSWORD/' /var/www/laravel/.env
+    # Switch from SQLite to MySQL and update credentials
+    sed -i "s/^DB_CONNECTION=sqlite/DB_CONNECTION=mysql/g" /var/www/laravel/.env
+    sed -i "s/^# DB_HOST=127.0.0.1/DB_HOST=127.0.0.1/g" /var/www/laravel/.env
+    sed -i "s/^# DB_PORT=3306/DB_PORT=3306/g" /var/www/laravel/.env
+    sed -i "s/^# DB_DATABASE=laravel/DB_DATABASE=laravel/g" /var/www/laravel/.env
+    sed -i "s/^# DB_USERNAME=root/DB_USERNAME=laravel_user/g" /var/www/laravel/.env
+    sed -i "s/^# DB_PASSWORD=/DB_PASSWORD=${password}/g" /var/www/laravel/.env
 
-    # Change password and user
-    sed -i "s/^DB_PASSWORD=/DB_PASSWORD=${password}/g" /var/www/laravel/.env
-    sed -i "s/^DB_USERNAME=root/DB_USERNAME=laravel_user/g" /var/www/laravel/.env
+    # Fallback SQLite
+    chown www-data:larasail /var/www/laravel/database/database.sqlite
 }
 
 create_database_details
@@ -64,7 +63,7 @@ echo "Running Laravel Migrations"
 cd /var/www/laravel/ && php artisan migrate
 
 # Set default PHP version
-update-alternatives --set php /usr/bin/php8.3
+update-alternatives --set php /usr/bin/php8.4
 
 echo -en "\n\n\n"
 echo "Next, you have the option of configuring LetsEncrypt to secure your new site.  Before doing this, be sure that you have pointed your doma
