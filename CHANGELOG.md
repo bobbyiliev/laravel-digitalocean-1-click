@@ -1,3 +1,12 @@
+## CHANGELOG
+
+## v0.5.0
+
+### Features
+
+    * Set SQLite database file ownership to www-data user during initial setup
+    * Upgraded to Laravel 12.35.1
+
 ## v0.4.0
 
 ### Features
