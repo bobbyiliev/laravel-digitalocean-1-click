@@ -33,6 +33,7 @@ chown -R larasail:www-data /var/www/laravel/storage
 chmod -R 775 /var/www/laravel/storage
 chown -R larasail:www-data /var/www/laravel/bootstrap/cache
 chmod -R 775 /var/www/laravel/bootstrap/cache
+chown www-data:larasail /var/www/laravel/database/database.sqlite
 
 # Lock larasail user
 passwd -ld larasail
